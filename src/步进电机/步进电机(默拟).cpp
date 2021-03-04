@@ -18,7 +18,12 @@ Ticker ticker;
  
 //1秒一圈 1步一圈 0.5步就是半圈
 //占空比多少无所谓，主要是持续时间
-void motor(float steps){
+void motor(bool dir,float steps){
+  if(dir){
+    digitalWrite(DIRPin,LOW);//正
+  }else{
+    digitalWrite(DIRPin,HIGH);//反
+  }
   analogWrite(PULPin, int(255/2));
   delay(int(steps*1000));
   analogWrite(PULPin, 0);
@@ -31,8 +36,11 @@ void setup()
   pinMode(DIRPin, OUTPUT);//方向
   //pinMode (BUTTON, INPUT);
 
-  analogWriteFreq(200);//电机1秒=1圈  
-  motor(0.5);
+  analogWriteFreq(200);//电机1秒=1圈   和拨码开关匹配
+  motor(true,0.5); //正 0.5圈
+  motor(false,0.5); //反 0.5圈
+  motor(true,1); //正 1圈
+  motor(false,1); //反 1圈
 }
 
  
