@@ -1,3 +1,32 @@
+// https://blog.csdn.net/Aspiration_H/article/details/107535299
+//   ticker1.attach_ms(500, [],(){Serial.printf("%d: callback1 triggered!\r\n")}, millis());}); //匿名函数方式
+// 2定时器启用方法：
+// void Ticker::once(float seconds, callback_function_t callback); xx秒后只执行一次
+// 其中入口参数：seconds—秒数 ；callback—回调函数；
+// void Ticker::once(float seconds, void (*callback)(TArg), TArg arg); xx秒后只执行一次
+// 其中入口参数：seconds—秒数 ；callback—回调函数；arg—回调函数参数；
+// void Ticker::once_ms(uint32_t milliseconds, callback_function_t callback) ；xx毫秒后只执行一次
+// 其中入口参数：milliseconds—毫秒数 ；callback—回调函数；
+// void Ticker::once_ms(uint32_t milliseconds, void (*callback)(TArg), TArg arg) xx毫秒后只执行一次
+// 其中入口参数：milliseconds—毫秒数 ；callback—回调函数；arg—回调函数参数；
+// void Ticker::attach(float seconds, callback_function_t callback)； 每隔xx秒周期性执行
+// 其中入口参数：seconds—秒数 ；callback—回调函数；
+// void Ticker::attach(float seconds, void (*callback)(TArg), TArg arg) 每隔xx秒周期性执行
+// 其中入口参数：seconds—秒数 ；callback—回调函数；arg—回调函数参数；
+// void Ticker::attach_ms_scheduled(uint32_t milliseconds, callback_function_t callback) ；每隔xx毫秒周期性执行
+// 其中入口参数：milliseconds—毫秒数 ；callback—回调函数；
+// void Ticker::attach_ms(uint32_t milliseconds, void (*callback)(TArg), TArg arg)；每隔xx毫秒周期性执行
+// 其中入口参数：milliseconds—毫秒数 ；callback—回调函数；arg—回调函数参数；
+// 核心函数：
+// ————————————————
+// 版权声明：本文为CSDN博主「chen20171013」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// 原文链接：https://blog.csdn.net/chen20171013/article/details/107655991
+
+//   ticker2.once(2, callback2, 2333333); //2秒后调用一次callback2
+// ————————————————
+// 版权声明：本文为CSDN博主「Newbie_H」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// 原文链接：https://blog.csdn.net/Aspiration_H/article/details/107535299
+
 // /**********************************************************************
 // 项目名称/Project          : 零基础入门学用物联网
 // 程序名称/Program name     : d_multi_ms
