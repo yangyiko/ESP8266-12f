@@ -1,48 +1,67 @@
 /**********************************************************************
 项目名称/Project          : 零基础入门学用物联网
-程序名称/Program name     : stream_readString
+程序名称/Program name     : d_multi_ms
 团队/Team                : 太极创客团队 / Taichi-Maker (www.taichi-maker.com)
 作者/Author              : CYNO朔
-日期/Date（YYYYMMDD）     : 20200308
+日期/Date（YYYYMMDD）     : 20200703
 程序目的/Purpose          : 
-Stream类用于处理字符数据流或二进制数据流。Stream类是不能被直接调用的。
-然而当我们使用基于Stream类的库时，都会调用Stream中的内容。
- 
-以下Arduino库及相应库中的类都是基于Stream类所实现的。
- 库                  类
-Serial              Serial
-SoftwareSerial    SoftwareSerial
-Ehternet          EthernetClient
-ESP8266FS         File
-SD                File
-Wire              Wire
-GSM               GSMClient
-WifiClient        WiFiClient
-WiFiServer        WiFiServer
-WiFiUDP           WiFiUDP
-WiFiClientSecure  WiFiClientSecure
- 
-此程序使用Serial库来演示Stream类中的available()以及
-readString函数的使用方法。
-available函数将会返回开发板所接收到的stream中等待读取的字节数。
-readString函数将读取stream中的字符并存储到字符中。
+本程序旨在演示如何使用多个Ticker对象来让ESP8266处理多个任务。
+
+如需了解本程序的详细说明，请参考以下函数：
+http://www.taichi-maker.com/homepage/esp8266-nodemcu-iot/iot-c/esp8266-tips/tinker/
 -----------------------------------------------------------------------
-本示例程序为太极创客团队制作的《零基础入门学用物联网》中示例程序。
-该教程为对物联网开发感兴趣的朋友所设计和制作。如需了解更多该教程的信息，请参考以下网页：
-http://www.taichi-maker.com/homepage/esp8266-nodemcu-iot/iot-c/esp8266-nodemcu-web-client/http-request/
+其它说明 / Other Description：
+本程序为太极创客团队制作的免费视频教程《零基础入门学用物联网 》中一部分。该教程系统的
+向您讲述ESP8266的物联网应用相关的软件和硬件知识。以下是该教程目录页：
+http://www.taichi-maker.com/homepage/esp8266-nodemcu-iot/                    
 ***********************************************************************/
+#include <Arduino.h>
+#include <Ticker.h>
+//#include <analogWrite.h>
 
-#include <Arduino.h> 
+Ticker ticker;
+Ticker buttonTicker;
 
-void setup() {
-  // 启动串口通讯
-  Serial.begin(115200); 
-  Serial.println();
-}
- 
-void loop() {  
-  if (Serial.available()){                    // 当串口接收到信息后
-    String serialData = Serial.readString();  // 将接收到的信息使用readString()存储于serialData变量
-    Serial.print(serialData);                 // 以便查看serialData变量的信息
+
+int count;
+#define LED_BUILTIN2 D5
+
+void sayHi(int hiTimes){
+  count++;
+  Serial.print("Hi ");
+  Serial.println(count);
+
+  if (count >= hiTimes) {
+    ticker.detach();
+    Serial.print("ticker.detach();");
   }
 }
+
+
+void buttonCheck(){
+
+}
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_BUILTIN2, OUTPUT);
+
+  
+  ticker.attach(1, sayHi, 60);
+  //buttonTicker.attach_ms(100, buttonCheck);
+}
+
+void loop() {
+  for (int fadeValue = 0 ; fadeValue <= 1023; fadeValue += 5) {
+    analogWrite(LED_BUILTIN2, fadeValue);
+    delay(10);
+  }
+
+  for (int fadeValue = 1023 ; fadeValue >= 0; fadeValue -= 5) {
+    analogWrite(LED_BUILTIN2, fadeValue);
+    delay(10);
+  }
+  delay(3000);
+}
+
+
